@@ -2,6 +2,7 @@
 #include "profile.h"
 #include "../InsertionSort.h"
 #include "../SelectionSort.h"
+#include "../MergeSort.h"
 
 #include <algorithm>
 #include <vector>
@@ -11,11 +12,13 @@ const int64_t SIZE_NUMB = 1000;
 
 void TestInsertionSort();
 void TestSelectionSort();
+void TestMergeSort();
 
 int main() {
     TestRunner tr;
     RUN_TEST(tr, TestInsertionSort);
     RUN_TEST(tr, TestSelectionSort);
+    RUN_TEST(tr, TestMergeSort);
     return 0;
 }
 
@@ -95,4 +98,21 @@ void TestSelectionSort() {
         }
         ASSERT_EQUAL(result, true_sort);
     }
+}
+
+void TestMergeSort() {
+    std::vector<int> true_sort(SIZE_SORT_ARR);
+    for (auto& el: true_sort)
+        el = std::rand() % SIZE_NUMB;
+
+    std::vector<int> result(true_sort);
+    {
+        LOG_DURATION("sorting time: standard sort algorithm");
+        std::sort(true_sort.begin(), true_sort.end());
+    }
+    {
+        LOG_DURATION("sorting time: merge sort algorithm");
+        MergeSort(result.begin(), result.end());
+    }
+    ASSERT_EQUAL(result, true_sort);
 }
