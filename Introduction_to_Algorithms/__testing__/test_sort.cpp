@@ -101,18 +101,40 @@ void TestSelectionSort() {
 }
 
 void TestMergeSort() {
-    std::vector<int> true_sort(SIZE_SORT_ARR);
-    for (auto& el: true_sort)
-        el = std::rand() % SIZE_NUMB;
+    {
+        std::vector<int> true_sort(SIZE_SORT_ARR);
+        for (auto& el: true_sort)
+            el = std::rand() % SIZE_NUMB;
 
-    std::vector<int> result(true_sort);
-    {
-        LOG_DURATION("sorting time: standard sort algorithm");
-        std::sort(true_sort.begin(), true_sort.end());
+        std::vector<int> result(true_sort);
+        {
+            LOG_DURATION("sorting time: standard sort algorithm");
+            std::sort(true_sort.begin(), true_sort.end());
+        }
+        {
+            LOG_DURATION("sorting time: merge sort algorithm");
+            MergeSort(result.begin(), result.end());
+        }
+        ASSERT_EQUAL(result, true_sort);
     }
     {
-        LOG_DURATION("sorting time: merge sort algorithm");
-        MergeSort(result.begin(), result.end());
+        std::vector<int> true_sort(SIZE_SORT_ARR);
+        for (auto& el: true_sort)
+            el = std::rand() % SIZE_NUMB;
+
+        std::vector<int> result(true_sort);
+        {
+            LOG_DURATION("sorting time: standard sort algorithm with compare");
+            std::sort(true_sort.begin(), true_sort.end(), [](auto& l, auto& r) {
+                return l > r;
+            });
+        }
+        {
+            LOG_DURATION("sorting time: merge sort algorithm with compare");
+            MergeSort(result.begin(), result.end(), [](auto& l, auto& r) {
+                return l > r;
+            });
+        }
+        ASSERT_EQUAL(result, true_sort);
     }
-    ASSERT_EQUAL(result, true_sort);
 }
