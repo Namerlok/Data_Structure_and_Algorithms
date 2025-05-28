@@ -2,30 +2,22 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
 // Start of code to send //
 
 func isPalindrome(x int) bool {
-	if x < 0 {
+	if x < 0 || (x%10 == 0 && x != 0) {
 		return false
 	}
-	posLeft := 1
-	for i := 0; i < int(math.Log10(float64(x))); i++ {
-		posLeft *= 10
-	}
-	posRight := 1
 
-	for posLeft > posRight {
-		if (x/posLeft)%10 != (x/posRight)%10 {
-			return false
-		} else {
-			posLeft /= 10
-			posRight *= 10
-		}
+	rev := 0
+	for rev < x {
+		rev = rev*10 + x%10
+		x /= 10
 	}
-	return true
+
+	return (rev == x) || (rev/10 == x)
 }
 
 // End of code to send //
