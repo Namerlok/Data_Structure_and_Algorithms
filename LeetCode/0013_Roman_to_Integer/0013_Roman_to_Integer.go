@@ -5,66 +5,45 @@ import (
 	"strconv"
 )
 
+// Start of code to send //
+
+func NumberIdentification(ch rune) int {
+	switch ch {
+	case 'I':
+		return 1
+	case 'V':
+		return 5
+	case 'X':
+		return 10
+	case 'L':
+		return 50
+	case 'C':
+		return 100
+	case 'D':
+		return 500
+	case 'M':
+		return 1000
+	default:
+		return -1
+	}
+}
+
 func romanToInt(s string) int {
 	var result int
-	var diffI bool
-	var diffX bool
-	var diffC bool
-	for _, ch := range s {
-		switch ch {
-		case 'I':
-			result += 1
-			diffI = true
-		case 'V':
-			if diffI {
-				result += 3
-			} else {
-				result += 5
-			}
-			diffI = false
-		case 'X':
-			if diffI {
-				result += 8
-			} else {
-				result += 10
-			}
-			diffI = false
-			diffX = true
-		case 'L':
-			if diffX {
-				result += 30
-			} else {
-				result += 50
-			}
-			diffX = false
-		case 'C':
-			if diffX {
-				result += 80
-			} else {
-				result += 100
-			}
-			diffX = false
-			diffC = true
-		case 'D':
-			if diffC {
-				result += 300
-			} else {
-				result += 500
-			}
-			diffC = false
-		case 'M':
-			if diffC {
-				result += 800
-			} else {
-				result += 1000
-			}
-			diffC = false
-		default:
-			return -1
+	var prev int
+	for ind, ch := range s {
+		now := NumberIdentification(ch)
+		if ind != 0 && prev < now {
+			result = result - 2*prev + now
+		} else {
+			result += now
 		}
+		prev = now
 	}
 	return result
 }
+
+// End of code to send //
 
 func main() {
 	s := "III"
