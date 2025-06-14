@@ -36,7 +36,7 @@ func main() {
 	if result == "fl" {
 		fmt.Println("pass")
 	} else {
-		fmt.Println("failed. Output: \"%s\", Correct: \"fl\"", result)
+		fmt.Printf("failed. Output: \"%s\", Correct: \"fl\"\n", result)
 	}
 
 	strs = []string{"dog", "racecar", "car"}
@@ -45,6 +45,6 @@ func main() {
 	if result == "" {
 		fmt.Println("pass")
 	} else {
-		fmt.Println("failed. Output: \"%s\", Correct: \"\"", result)
+		fmt.Printf("failed. Output: \"%s\", Correct: \"\"\n", result)
 	}
 }
