@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"unicode/utf8"
 )
 
 // Start of code to send //
@@ -16,25 +15,20 @@ func max(left, right int) int {
 }
 
 func lengthOfLongestSubstring(str string) int {
-	usedLetter := make(map[rune]struct{})
-	var posL, maxLen, len int
-	for _, r := range str {
-		if _, ok := usedLetter[r]; ok {
-			for {
-				val, size := utf8.DecodeRuneInString(str[posL:])
-				fmt.Printf("val: %c\n", val)
-				delete(usedLetter, val)
-				posL += size
-				len--
-				if val == r {
-					break
-				}
-			}
-		}
-		usedLetter[r] = struct{}{}
-		len++
+	usedLetter := make(map[rune]int)
+	var posL, maxLen int
+	for posR, r := range str {
 
-		maxLen = max(maxLen, len)
+		if pos, ok := usedLetter[r]; ok {
+			for _, val := range str[posL : pos+1] {
+				delete(usedLetter, val)
+			}
+			posL = pos + 1
+		}
+
+		usedLetter[r] = posR
+
+		maxLen = max(maxLen, posR-posL+1)
 
 		fmt.Printf("map: ")
 		for key, _ := range usedLetter {
@@ -81,7 +75,17 @@ func main() {
 	str = "aab"
 	answer = 2
 	result = lengthOfLongestSubstring(str)
-	fmt.Printf("#test case 34: ")
+	fmt.Printf("#test case 4: ")
+	if result == answer {
+		fmt.Printf("pass\n")
+	} else {
+		fmt.Printf("failed, input string: %s, answer: %d, give result: %d\n", str, answer, result)
+	}
+
+	str = "abba"
+	answer = 2
+	result = lengthOfLongestSubstring(str)
+	fmt.Printf("#test case 5: ")
 	if result == answer {
 		fmt.Printf("pass\n")
 	} else {
