@@ -18,23 +18,14 @@ func lengthOfLongestSubstring(str string) int {
 	usedLetter := make(map[rune]int)
 	var posL, maxLen int
 	for posR, r := range str {
-
 		if pos, ok := usedLetter[r]; ok {
 			for _, val := range str[posL : pos+1] {
 				delete(usedLetter, val)
 			}
 			posL = pos + 1
 		}
-
 		usedLetter[r] = posR
-
 		maxLen = max(maxLen, posR-posL+1)
-
-		fmt.Printf("map: ")
-		for key, _ := range usedLetter {
-			fmt.Printf("%c ", key)
-		}
-		fmt.Printf("\n")
 	}
 	return maxLen
 }
