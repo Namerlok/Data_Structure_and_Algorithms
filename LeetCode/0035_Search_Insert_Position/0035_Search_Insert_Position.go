@@ -8,7 +8,6 @@ func searchInsert(nums []int, target int) int {
 	posL, posR := 0, len(nums)-1
 	for posR-posL > 1 {
 		privot := (posR + posL) / 2
-		fmt.Printf("privot: %d, posL: %d, posR:%d \n", privot, posL, posR)
 		if target == nums[privot] {
 			return privot
 		} else if target > nums[privot] {
@@ -25,7 +24,6 @@ func searchInsert(nums []int, target int) int {
 	} else {
 		return posR + 1
 	}
-
 }
 
 // End of code to send //
