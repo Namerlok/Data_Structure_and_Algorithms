@@ -2,33 +2,34 @@ package main
 
 import "sort"
 
-func sortByBits(arr []int) []int {
-	sort.Slice(arr, func(left, right int) bool {
-		left = arr[left]
-		right = arr[right]
-		var isLess bool
-		if left < right {
-			isLess = true
-		}
-		var countLeft, countRight int
-		for left > 0 || right > 0 {
-			if left > 0 && left&1 == 1 {
-				countLeft++
-			}
-			if right > 0 && right&1 == 1 {
-				countRight++
-			}
-			left >>= 1
-			right >>= 1
-		}
-		if countLeft < countRight {
-			return true
-		} else if countLeft > countRight {
-			return false
-		} else { // if countLeft == countRight
-			return isLess
-		}
-	})
-	return arr
+const MaxBitsInNum = 14
 
+func sortByBits(arr []int) []int {
+	countBit := make([][]int, MaxBitsInNum)
+	for pos, el := range arr {
+		count := 0
+		for el > 0 {
+			if el&1 == 1 {
+				count++
+			}
+			el >>= 1
+		}
+		countBit[count] = append(countBit[count], arr[pos])
+	}
+	pos := 0
+	for _, subArr := range countBit {
+		sort.Slice(subArr, func(i, j int) bool {
+			if subArr[i] < subArr[j] {
+				return true
+			} else {
+				return false
+			}
+		})
+		for _, el := range subArr {
+			arr[pos] = el
+			pos++
+		}
+
+	}
+	return arr
 }
